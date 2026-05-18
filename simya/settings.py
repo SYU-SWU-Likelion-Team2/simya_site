@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     # 🌟 우리가 추가한 회원가입/로그인용 & CORS 해결 패키지
     'rest_framework',
     'corsheaders',
+    'accounts',
 ]
 
 MIDDLEWARE = [
@@ -112,3 +113,4 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+AUTH_USER_MODEL = 'accounts.User'
