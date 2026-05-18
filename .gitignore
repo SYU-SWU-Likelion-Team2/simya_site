@@ -1,0 +1,14 @@
+### Python / Django ###
+*.pyc
+__pycache__/
+.venv/
+db.sqlite3
+.env
+
+### JetBrains (PyCharm) ###
+.idea/
+*.iws
+
+### OS ###
+.DS_Store
+Thumbs.db
