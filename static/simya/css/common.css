@@ -179,7 +179,22 @@ textarea:focus-visible {
   left: -49px;
   width: 185px;
 }
+@media (max-width: 768px) {
+  .simya-page {
+    overflow: hidden;
+  }
 
+  .simya-screen {
+    width: 100vw;
+    height: 100dvh;
+    border-radius: 0;
+    transform: none !important;
+  }
+
+  .screen-dim {
+    border-radius: 0;
+  }
+}
 
 
 
