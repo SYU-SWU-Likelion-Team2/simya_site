@@ -179,22 +179,7 @@ textarea:focus-visible {
   left: -49px;
   width: 185px;
 }
-@media (max-width: 768px) {
-  .simya-page {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #000; /* 남는 공간 색 */
-    overflow: hidden;
-  }
 
-  .simya-screen {
-    width: 390px;
-    height: 844px;
-    transform: none !important;
-    flex-shrink: 0;
-  }
-}
 
 
 

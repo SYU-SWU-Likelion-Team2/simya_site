@@ -667,19 +667,4 @@ h1 {
 .btn-auth-switch:hover {
   color: #f59b45;
 }
-@media (max-width: 768px) {
-  .simya-page {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #000; /* 남는 공간 색 */
-    overflow: hidden;
-  }
 
-  .simya-screen {
-    width: 390px;
-    height: 844px;
-    transform: none !important;
-    flex-shrink: 0;
-  }
-}

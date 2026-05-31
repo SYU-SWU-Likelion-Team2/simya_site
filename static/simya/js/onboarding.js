@@ -20,11 +20,11 @@ function syncSimyaViewportScale() {
   const viewport = window.visualViewport || window;
   const width = viewport.width || window.innerWidth;
   const height = viewport.height || window.innerHeight;
-  const isPhoneViewport = Math.min(width, height) <= 540;
-  const scaleX = isPhoneViewport ? width / 390 : 1;
-  const scaleY = isPhoneViewport ? height / 844 : 1;
-  document.documentElement.style.setProperty("--simya-scale-x", scaleX);
-  document.documentElement.style.setProperty("--simya-scale-y", scaleY);
+
+  const scale = Math.min(width / 390, height / 844, 1);
+
+  document.documentElement.style.setProperty("--simya-scale-x", scale);
+  document.documentElement.style.setProperty("--simya-scale-y", scale);
 }
 
 syncSimyaViewportScale();
