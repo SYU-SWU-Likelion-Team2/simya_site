@@ -15,8 +15,9 @@
     <main class="simya-screen tonight-hub-screen">
       <div class="screen-dim tonight-dim" aria-hidden="true"></div>
       <header class="hub-top">
-        <p>SIMYA</p>
-        <span aria-hidden="true"></span>
+          <p>SIMYA</p>
+          <a href="{% url 'tonight:logout' %}" style="position:absolute; top:41px; right:29px; color:#a8a8b8; font-size:12px; font-weight:500;">로그아웃</a>
+          <span aria-hidden="true"></span>
       </header>
           <section class="hub-title">
       <h1>오늘의 밤</h1>

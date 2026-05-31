@@ -12,4 +12,5 @@ urlpatterns = [
     path('comments/<int:post_id>/', views.comments, name='comments'),
     path('reaction/<int:post_id>/', views.reaction, name='reaction'),
     path('delete/<int:post_id>/', views.delete, name='delete'),
+    path('logout/', views.logout_view, name='logout'),
 ]

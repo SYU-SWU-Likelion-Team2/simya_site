@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout
 from posts.models import Post, Draft, FirewoodType, Comment, Reaction
 
 
@@ -115,3 +116,8 @@ def delete(request, post_id):
     if request.method == 'POST':
         post.delete()
     return redirect('tonight:index')
+
+@login_required
+def logout_view(request):
+    logout(request)
+    return redirect('accounts:login')
