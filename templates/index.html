@@ -1,0 +1,172 @@
+<!doctype html>
+{% load static %}
+<!--
+ * index.html
+ * Description : 온보딩 시작 화면
+ * Author       : 배서현
+ * Contributors : Codex
+ * Created      : 2026-05-23
+ * Last Update  : 2026-05-30
+ * Revision History
+ *   v1.0.0 - 정적 프론트 화면 제작 (2026-05-23 : 배서현)
+ *   v1.1.0 - Figma 기준 UI/상호작용 반영 (2026-05-26 : Codex)
+ *   v1.2.0 - Django MTV 템플릿 연결 준비 및 백엔드 인수인계 주석 정리 (2026-05-30 : Codex)
+ * Frontend responsibilities
+ * - 온보딩 슬라이드 전환, 로그인 진입 버튼, iPhone 기준 화면 스케일을 담당합니다.
+ * Frontend -> Backend values
+ * - 없음. 로그인/회원가입 화면으로 이동만 수행합니다.
+ * Backend -> Frontend values
+ * - 서비스 오픈 상태, 공지/슬라이드 카피가 서버 관리 대상이면 onboardingSlides[], serviceStatus.
+ * Backend responsibilities
+ * - accounts 앱의 login/signup URL과 tonight:index URL을 제공하고, 필요 시 온보딩 카피를 context로 내려줍니다.
+ * Django MTV notes
+ * - Django에서는 루트 index.html로 사용하며 static 경로와 accounts/tonight URL name이 필요합니다.
+--><html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SIMYA</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Noto+Serif+KR:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="{% static 'simya/css/onboarding.css' %}" />
+  </head>
+  <body>
+    <div class="onboarding-wrapper">
+      <!-- 온보딩 1 -->
+      <div class="slide active" id="slide-1">
+        <div class="top-bar">
+          <span class="time">--:--</span>
+          <span class="logo">SIMYA</span>
+        </div>
+        <div class="content">
+          <h1>밤 11시,<br />심야가 열려요</h1>
+          <p>
+            모두가 잠든 밤,<br />쉽게 잠들지 못하는 마음이<br />잠시 머물 수
+            있는 익명의 공간이에요.
+          </p>
+          <div class="open-badge">23:00 - 05:00 OPEN</div>
+        </div>
+
+        <div class="bottom">
+          <div class="dots">
+            <span class="dot active"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+          </div>
+          <button class="btn-next" onclick="nextSlide()">다음</button>
+        </div>
+      </div>
+
+      <!-- 온보딩 2 -->
+      <div class="slide" id="slide-2">
+        <div class="top-bar">
+          <span class="time">--:--</span>
+          <span class="logo">SIMYA</span>
+        </div>
+        <div class="content">
+          <h1>말하지 못한 마음을<br />익명으로 남겨요</h1>
+          <p>
+            정보를 빠르게 소비하거나<br />논쟁하는 곳이 아니라,<br />솔직한
+            이야기를 조용히 내려놓는 곳.
+          </p>
+          <div class="tags">
+            <span class="tag">익명</span>
+            <span class="tag">고요함</span>
+            <span class="tag">안식처</span>
+          </div>
+        </div>
+
+        <div class="bottom">
+          <div class="dots">
+            <span class="dot"></span>
+            <span class="dot active"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+          </div>
+          <button class="btn-next" onclick="nextSlide()">다음</button>
+        </div>
+      </div>
+
+      <!-- 온보딩 3 -->
+      <div class="slide" id="slide-3">
+        <div class="top-bar">
+          <span class="time">--:--</span>
+          <span class="logo">SIMYA</span>
+        </div>
+        <div class="content">
+          <h1>글은 장작처럼<br />스스로 태워 보내요</h1>
+          <p>
+            짧은 밤, 새벽까지, 하루 동안.<br />글이 머무는 시간은 작성자가
+            정하고,<br />반응은 그 시간을 바꾸지 않아요.
+          </p>
+          <div class="burn-options">
+            <div class="burn-item">짧은 밤 &nbsp; 5시간 뒤 태워져요</div>
+            <div class="burn-item highlight">
+              새벽까지 &nbsp; 새벽 5시에 태워져요
+            </div>
+            <div class="burn-item">하루 동안 &nbsp; 24시간 뒤 태워져요</div>
+          </div>
+        </div>
+
+        <div class="bottom">
+          <div class="dots">
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot active"></span>
+            <span class="dot"></span>
+          </div>
+          <button class="btn-next" onclick="nextSlide()">다음</button>
+        </div>
+      </div>
+
+      <!-- 온보딩 4 -->
+      <div class="slide" id="slide-4">
+        <div class="top-bar">
+          <span class="time">--:--</span>
+          <span class="logo">SIMYA</span>
+        </div>
+        <div class="content">
+          <h1>오늘 밤,<br />심야에 들어갈까요?</h1>
+          <p>
+            간단한 인증만 하고,<br />이름보다 마음이 먼저 남는 밤으로 들어가요.
+          </p>
+        </div>
+
+        <div class="bottom">
+          <a class="btn-google" href="/accounts/google/login/">
+            <img
+              class="google-logo"
+              src="{% static 'simya/images/google-mark.svg' %}"
+              alt=""
+            />
+            <span>Google로 로그인하기</span>
+          </a>
+          <a class="btn-auth-switch" href="/accounts/login/">
+            로그인 또는 회원가입 하기
+          </a>
+          <div class="dots">
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot active"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      window.SIMYA_ROUTES = {
+        authLogin: "{% url 'accounts:login' %}",
+        authSignup: "{% url 'accounts:signup' %}",
+        tonightIndex: "{% url 'tonight:index' %}"
+      };
+    </script>
+    <script src="{% static 'simya/js/onboarding.js' %}"></script>
+  </body>
+</html>
+
+

@@ -1,0 +1,87 @@
+<!doctype html>
+{% load static %}
+<!--
+ * edit.html
+ * Description : 글 수정 화면
+ * Author       : 배서현
+ * Contributors : Codex
+ * Created      : 2026-05-23
+ * Last Update  : 2026-05-30
+ * Revision History
+ *   v1.0.0 - 정적 프론트 화면 제작 (2026-05-23 : 배서현)
+ *   v1.1.0 - Figma 기준 UI/상호작용 반영 (2026-05-26 : Codex)
+ *   v1.2.0 - Django MTV 템플릿 연결 준비 및 백엔드 인수인계 주석 정리 (2026-05-30 : Codex)
+ * Frontend responsibilities
+ * - 내 글의 내용을 수정하고 글자 수와 머무는 시간을 보여줍니다.
+ * Frontend -> Backend values
+ * - postId, userId/session, copy, updatedAt.
+ * Backend -> Frontend values
+ * - postId, copy, duration, expiresAt, updatedAt, validation errors.
+ * Backend responsibilities
+ * - tonight:edit view에서 작성자 권한 확인, PATCH/POST 저장, 성공 후 detail redirect를 처리합니다.
+ * Django MTV notes
+ * - Django에서는 pages/tonight/edit.html로 사용하며 canEdit 권한이 없으면 tonight:index/detail로 돌려보냅니다.
+--><html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SIMYA - 글 다듬기</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Noto+Serif+KR:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="{% static 'simya/css/common.css' %}" />
+    <link rel="stylesheet" href="{% static 'simya/css/tonight.css' %}" />
+  </head>
+  <body class="simya-page">
+    <main class="simya-screen tonight-detail-screen tonight-edit-screen">
+      <div class="screen-dim tonight-detail-dim" aria-hidden="true"></div>
+      <span class="screen-status-indicator" aria-hidden="true"></span>
+      <span class="tonight-detail-moon" aria-hidden="true"></span>
+
+      <header class="tonight-detail-topbar">
+        <a class="tonight-detail-back" href="{% url 'tonight:detail' post.pk %}" aria-label="상세로 돌아가기">‹</a>
+        <h1>글 다듬기</h1>
+        <p>처음 마음은 그대로 두고 정리해요</p>
+        <strong data-countdown data-minutes-left="312" data-countdown-format="clock">
+          05:12 남음
+        </strong>
+        <span aria-hidden="true"></span>
+      </header>
+
+      <form class="td-edit-form" method="POST" action="{% url 'tonight:edit' post.pk %}">
+        {% csrf_token %}
+        <label class="td-edit-label" for="edit-copy">남긴 글</label>
+        <div class="td-edit-box">
+          <textarea id="edit-copy" name="content" maxlength="300" data-edit-textarea
+                    oninput="document.querySelector('[data-edit-count]').textContent = this.value.length">{{ post.content }}</textarea>
+          <p><span data-edit-count>0</span> / 300</p>
+        </div>
+        <aside class="td-edit-lock">
+          <h2>머무는 시간은 그대로예요</h2>
+          <p data-edit-duration>{{ post.get_firewood_type_display }}</p>
+        </aside>
+        <nav class="td-edit-actions" aria-label="수정 액션">
+          <a class="td-edit-cancel" href="{% url 'tonight:detail' post.pk %}">취소</a>
+          <button class="td-edit-save" type="submit">수정 완료</button>
+        </nav>
+      </form>
+    </main>
+    <script>
+      window.SIMYA_ROUTES = {
+        tonightIndex: "{% url 'tonight:index' %}",
+        tonightWrite: "{% url 'tonight:write' %}",
+        tonightFirewood: "{% url 'tonight:firewood' %}",
+        tonightDetail: "/tonight/detail/",
+        tonightEdit: "/tonight/edit/",
+        tonightComments: "/tonight/comments/",
+        tonightReaction: "/tonight/reaction/"
+};
+    </script>
+    <script src="{% static 'simya/js/tonight.js' %}"></script>
+  </body>
+</html>
+
+

@@ -1,0 +1,53 @@
+<!doctype html>
+{% load static %}
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SIMYA - 회원가입</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Noto+Serif+KR:wght@700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static 'simya/css/onboarding.css' %}" />
+  </head>
+  <body>
+    <main class="onboarding-wrapper auth-signup">
+      <div class="slide active">
+        <div class="top-bar">
+          <span class="time">--:--</span>
+          <span class="logo">SIMYA</span>
+        </div>
+        <form class="auth-form" method="POST" action="{% url 'account_signup' %}">
+          {% csrf_token %}
+          <h1 class="auth-title">처음 만나는<br />심야의 이름</h1>
+          <p class="auth-copy">아이디와 닉네임만 정하면<br />오늘 밤의 작은 자리가 생겨요.</p>
+
+          <section class="auth-panel" aria-label="회원가입">
+            <h2>회원가입</h2>
+            <p>심야에서 사용할 작은 이름을 정해주세요.</p>
+
+            {% if form.errors %}
+              <p style="color:red;">{{ form.errors }}</p>
+            {% endif %}
+
+            <div class="auth-field">
+              <label for="id_email">이메일</label>
+              <input id="id_email" name="email" type="email" placeholder="이메일을 입력해주세요" />
+            </div>
+            <div class="auth-field">
+              <label for="id_password1">비밀번호</label>
+              <input id="id_password1" name="password1" type="password" placeholder="비밀번호를 입력해주세요" required />
+            </div>
+            <div class="auth-field">
+              <label for="id_password2">비밀번호 확인</label>
+              <input id="id_password2" name="password2" type="password" placeholder="비밀번호를 다시 입력해주세요" required />
+            </div>
+
+            <button class="auth-submit" type="submit">가입하기</button>
+            <a class="auth-link" href="{% url 'accounts:login' %}">이미 계정이 있어요&nbsp;&nbsp;·&nbsp;&nbsp;로그인</a>
+          </section>
+        </form>
+      </div>
+    </main>
+  </body>
+</html>

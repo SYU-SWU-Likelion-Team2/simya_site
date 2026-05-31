@@ -1,0 +1,126 @@
+<!doctype html>
+{% load static %}
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SIMYA - 밤의 기록</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Noto+Serif+KR:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static 'simya/css/common.css' %}" />
+    <link rel="stylesheet" href="{% static 'simya/css/tonight.css' %}" />
+  </head>
+  <body class="simya-page">
+    <main class="simya-screen tonight-detail-screen">
+      <div class="screen-dim tonight-detail-dim" aria-hidden="true"></div>
+      <span class="screen-status-indicator" aria-hidden="true"></span>
+      <span class="tonight-detail-moon" aria-hidden="true"></span>
+
+      <header class="tonight-detail-topbar">
+        <a class="tonight-detail-back" href="{% url 'tonight:index' %}" aria-label="오늘의 밤으로 돌아가기">‹</a>
+        <h1>{% if post.is_mine %}내가 남긴 밤{% else %}밤의 기록{% endif %}</h1>
+        <p>{% if post.is_mine %}아직 머무는 중{% else %}곁에 머무는 글{% endif %}</p>
+        <strong data-countdown data-expires-at="{{ post.expires_at|date:'c' }}" data-countdown-format="clock">남은 시간</strong>
+        <span aria-hidden="true"></span>
+      </header>
+
+      <article class="tonight-detail-card">
+        <div class="tonight-detail-avatar" aria-hidden="true"></div>
+        <p class="td-post-meta">{% if post.is_mine %}내가 남긴 밤{% else %}익명의 밤{% endif %} · {{ post.created_at|date:'H:i' }}</p>
+        <p class="td-post-burn">{{ post.get_firewood_type_display }}</p>
+        <p class="td-post-copy">{{ post.content }}</p>
+        <span class="td-post-divider" aria-hidden="true"></span>
+        <p class="td-post-note">{% if post.is_mine %}아직 커뮤니티에 머무는 중이에요{% else %}말없이 곁에 머무를 수 있어요{% endif %}</p>
+        <span class="td-fire" aria-hidden="true"></span>
+
+        {% if post.is_mine %}
+        <button class="td-more" type="button" id="owner-menu-toggle" aria-label="내 글 메뉴 열기">⋯</button>
+        <nav class="td-owner-menu" id="owner-menu" hidden aria-label="내 글 메뉴">
+          <a href="{% url 'tonight:edit' post.pk %}">글 수정하기</a>
+          <button type="button" id="owner-delete">지금 삭제하기</button>
+        </nav>
+        {% endif %}
+      </article>
+
+      <section class="td-reactions" aria-label="감정 표시">
+        <h2>감정 표시</h2>
+        <a class="td-reaction-chip td-reaction-fire {% if post.user_reacted_fire %}is-selected{% endif %}"
+           href="{% url 'tonight:reaction' post.pk %}">
+          <span class="td-reaction-fire-icon" aria-hidden="true"></span> 불씨 남겨요 <strong>{{ post.fire_count }}</strong>
+        </a>
+        <a class="td-reaction-chip td-reaction-stay {% if post.user_reacted_stay %}is-selected{% endif %}"
+           href="{% url 'tonight:reaction' post.pk %}">
+          <span class="td-reaction-stay-icon" aria-hidden="true"></span> 곁에 머물러요 <strong>{{ post.stay_count }}</strong>
+        </a>
+      </section>
+
+      <section class="td-comments" aria-label="곁에 남긴 말">
+        <h2>곁에 남긴 말 {{ comments|length }}</h2>
+        {% for comment in comments|slice:":2" %}
+        <article class="td-comment {% if forloop.first %}td-comment-one{% else %}td-comment-two{% endif %}">
+          <div class="tonight-detail-avatar td-avatar-small" aria-hidden="true"></div>
+          <h3>익명의 곁 · {{ comment.created_at|timesince }}전</h3>
+          <p>{{ comment.content }}</p>
+        </article>
+        {% endfor %}
+      </section>
+
+      <form class="td-comment-input {% if post.is_mine %}is-disabled{% endif %}" method="POST" action="{% url 'tonight:comments' post.pk %}">
+        {% csrf_token %}
+        <label class="sr-only" for="tonight-comment">한마디 남기기</label>
+        <input id="tonight-comment" name="content" type="text"
+          placeholder="{% if post.is_mine %}내 글에는 답장을 남길 수 없어요{% else %}조용히 한마디 남기기{% endif %}"
+          {% if post.is_mine %}disabled{% endif %} />
+        <button type="submit" {% if post.is_mine %}disabled{% endif %}>남김</button>
+      </form>
+
+      <section class="td-delete-overlay" data-delete-modal role="dialog" aria-modal="true" aria-labelledby="delete-title" hidden>
+        <div class="td-delete-modal">
+          <span class="td-delete-cat" aria-hidden="true"></span>
+          <h2 id="delete-title">이 글을 지금 삭제 할까요?</h2>
+          <p>커뮤니티에서 사라집니다,<br />여러분의 고민도 함께 사라졌으면 해요.</p>
+          <button class="td-delete-no" type="button" data-delete-cancel>아니요</button>
+          <button class="td-delete-yes" type="button" data-delete-confirm>재로 보내기</button>
+        </div>
+      </section>
+    </main>
+
+    {% if post.is_mine %}
+    <script>
+      document.getElementById('owner-menu-toggle').addEventListener('click', function() {
+        var menu = document.getElementById('owner-menu');
+        menu.hidden = !menu.hidden;
+      });
+      document.getElementById('owner-delete').addEventListener('click', function() {
+        document.getElementById('owner-menu').hidden = true;
+        document.querySelector('[data-delete-modal]').hidden = false;
+      });
+      document.querySelector('[data-delete-cancel]').addEventListener('click', function() {
+        document.querySelector('[data-delete-modal]').hidden = true;
+      });
+      document.querySelector('[data-delete-confirm]').addEventListener('click', function() {
+        fetch("{% url 'tonight:delete' post.pk %}", {
+          method: 'POST',
+          headers: {'X-CSRFToken': '{{ csrf_token }}'},
+        }).then(function() {
+          window.location.href = "{% url 'tonight:index' %}";
+        });
+      });
+    </script>
+    {% endif %}
+
+    <script>
+      window.SIMYA_ROUTES = {
+        tonightIndex: "{% url 'tonight:index' %}",
+        tonightWrite: "{% url 'tonight:write' %}",
+        tonightFirewood: "{% url 'tonight:firewood' %}",
+        tonightDetail: "/tonight/detail/",
+        tonightEdit: "/tonight/edit/",
+        tonightComments: "/tonight/comments/",
+        tonightReaction: "/tonight/reaction/"
+      };
+    </script>
+    <script src="{% static 'simya/js/tonight.js' %}"></script>
+  </body>
+</html>

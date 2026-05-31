@@ -1,0 +1,106 @@
+<!doctype html>
+{% load static %}
+<!--
+ * comments.html
+ * Description : 댓글 전체 보기 화면
+ * Author       : 배서현
+ * Contributors : Codex
+ * Created      : 2026-05-23
+ * Last Update  : 2026-05-30
+ * Revision History
+ *   v1.0.0 - 정적 프론트 화면 제작 (2026-05-23 : 배서현)
+ *   v1.1.0 - Figma 기준 UI/상호작용 반영 (2026-05-26 : Codex)
+ *   v1.2.0 - Django MTV 템플릿 연결 준비 및 백엔드 인수인계 주석 정리 (2026-05-30 : Codex)
+ * Frontend responsibilities
+ * - 특정 글의 댓글 목록 전체와 댓글 입력 UI를 표시합니다.
+ * Frontend -> Backend values
+ * - postId, userId/session, commentBody, createdAt.
+ * Backend -> Frontend values
+ * - comments[]: commentId, authorLabel, body, createdAt, isMine(optional), commentCount.
+ * Backend responsibilities
+ * - tonight:comments view에서 댓글 목록 조회와 댓글 작성 POST를 처리하고 내 글에는 답장 금지 정책을 적용합니다.
+ * Django MTV notes
+ * - Django에서는 pages/tonight/comments.html로 사용하며 postId를 path/query에서 받아 댓글 QuerySet을 내려줍니다.
+--><html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SIMYA - 곁에 남긴 말</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Noto+Serif+KR:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="{% static 'simya/css/common.css' %}" />
+    <link rel="stylesheet" href="{% static 'simya/css/tonight.css' %}" />
+  </head>
+  <body class="simya-page">
+    <main class="simya-screen tonight-detail-screen tonight-comments-screen">
+      <div class="screen-dim tonight-detail-dim" aria-hidden="true"></div>
+      <span class="tonight-detail-moon" aria-hidden="true"></span>
+
+      <header class="tonight-detail-topbar">
+        <a class="tonight-detail-back" href="/tonight/detail/" aria-label="상세로 돌아가기">‹</a>
+        <h1>곁에 남긴 말</h1>
+        <p>작성자에게 조용히 닿아요</p>
+        <strong data-countdown data-minutes-left="312" data-countdown-format="clock">
+          05:12 남음
+        </strong>
+        <span aria-hidden="true"></span>
+      </header>
+
+      <article class="tonight-detail-card">
+        <div class="tonight-detail-avatar" aria-hidden="true"></div>
+        <p class="td-post-meta">익명의 밤 23 · 23:41</p>
+        <p class="td-post-burn">커뮤니티 닫히는 새벽 5시까지</p>
+        <p class="td-post-copy">
+          오늘은 아무것도 못 한 것 같은데 마음만 너무 시끄러워요. 누군가에게
+          설명하기엔 사소하고, 혼자 두기엔 자꾸 커지는 밤이에요.
+        </p>
+        <span class="td-post-divider" aria-hidden="true"></span>
+        <p class="td-post-note">말없이 곁에 머무를 수 있어요</p>
+        <span class="td-fire" aria-hidden="true"></span>
+      </article>
+
+      <section class="td-comments td-comments-full" aria-label="곁에 남긴 말">
+        <h2>곁에 남긴 말</h2>
+        <article class="td-comment td-comment-one">
+          <div class="tonight-detail-avatar td-avatar-small" aria-hidden="true"></div>
+          <h3>같은 밤 07 · 방금</h3>
+          <p>그런 밤은 그냥 지나가도 괜찮아요.</p>
+        </article>
+        <article class="td-comment td-comment-two">
+          <div class="tonight-detail-avatar td-avatar-small" aria-hidden="true"></div>
+          <h3>익명의 곁 03 · 방금</h3>
+          <p>저도 오늘 비슷했어요. 조용히 옆에 있을게요.</p>
+        </article>
+        <article class="td-comment td-comment-three">
+          <div class="tonight-detail-avatar td-avatar-small" aria-hidden="true"></div>
+          <h3>불씨 11 · 방금</h3>
+          <p>설명하지 않아도 되는 마음이 있더라고요.</p>
+        </article>
+      </section>
+
+      <form class="td-comment-input" action="/tonight/detail/">
+        <label class="sr-only" for="tonight-comment-full">말 남기기</label>
+        <input id="tonight-comment-full" type="text" placeholder="말을 조용히 남기기" />
+        <button type="submit">남김</button>
+      </form>
+    </main>
+    <script>
+      window.SIMYA_ROUTES = {
+        tonightIndex: "{% url 'tonight:index' %}",
+        tonightWrite: "{% url 'tonight:write' %}",
+        tonightFirewood: "{% url 'tonight:firewood' %}",
+        tonightDetail: "/tonight/detail/",
+        tonightEdit: "/tonight/edit/",
+        tonightComments: "/tonight/comments/",
+        tonightReaction: "/tonight/reaction/"
+};
+    </script>
+    <script src="{% static 'simya/js/tonight.js' %}"></script>
+  </body>
+</html>
+
+

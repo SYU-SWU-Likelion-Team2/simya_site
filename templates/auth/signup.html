@@ -1,0 +1,124 @@
+<!doctype html>
+{% load static %}
+<!--
+ * signup.html
+ * Description : 회원가입 화면
+ * Author       : 배서현
+ * Contributors : Codex
+ * Created      : 2026-05-23
+ * Last Update  : 2026-05-30
+ * Revision History
+ *   v1.0.0 - 정적 프론트 화면 제작 (2026-05-23 : 배서현)
+ *   v1.1.0 - Figma 기준 UI/상호작용 반영 (2026-05-26 : Codex)
+ *   v1.2.0 - Django MTV 템플릿 연결 준비 및 백엔드 인수인계 주석 정리 (2026-05-30 : Codex)
+ * Frontend responsibilities
+ * - 이름/닉네임/로그인 ID/비밀번호 입력 UI와 로그인 이동 링크를 제공합니다.
+ * Frontend -> Backend values
+ * - name, nickname, loginId, password, passwordConfirm(optional).
+ * Backend -> Frontend values
+ * - userId, nickname, createdAt, accessToken/sessionId 또는 validation errors.
+ * Backend responsibilities
+ * - accounts:signup view에서 중복 검사, 계정 생성, 세션 생성, 실패 시 오류 context 반환을 처리합니다.
+ * Django MTV notes
+ * - Django에서는 pages/auth/signup.html로 사용하며 POST 전환 시 csrf_token과 form action을 accounts:signup에 연결합니다.
+--><html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SIMYA - 회원가입</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Noto+Serif+KR:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="{% static 'simya/css/onboarding.css' %}" />
+  </head>
+  <body>
+    <main class="onboarding-wrapper auth-signup">
+      <div class="slide active">
+        <div class="top-bar">
+          <span class="time">--:--</span>
+          <span class="logo">SIMYA</span>
+        </div>
+        <form class="auth-form" data-auth-form data-auth-mode="signup">
+          <h1 class="auth-title">처음 만나는<br />심야의 이름</h1>
+          <p class="auth-copy">
+            아이디와 닉네임만 정하면<br />오늘 밤의 작은 자리가 생겨요.
+          </p>
+
+          <section class="auth-panel" aria-label="회원가입">
+            <h2>회원가입</h2>
+            <p>심야에서 사용할 작은 이름을 정해주세요.</p>
+
+            <div class="auth-field field-id">
+              <label for="signup-id">아이디</label>
+              <input
+                id="signup-id"
+                name="loginId"
+                type="text"
+                placeholder="아이디를 입력해주세요"
+                required
+              />
+            </div>
+
+            <div class="auth-field field-password">
+              <label for="signup-password">비밀번호</label>
+              <input
+                id="signup-password"
+                name="password"
+                type="password"
+                placeholder="비밀번호를 입력해주세요"
+                required
+              />
+              <button
+                class="auth-toggle-password"
+                type="button"
+                data-toggle-password
+              >
+                숨김
+              </button>
+            </div>
+
+            <div class="auth-field field-name">
+              <label for="signup-name">이름</label>
+              <input
+                id="signup-name"
+                name="name"
+                type="text"
+                placeholder="이름을 입력해주세요"
+                required
+              />
+            </div>
+
+            <div class="auth-field field-nickname">
+              <label for="signup-nickname">닉네임</label>
+              <input
+                id="signup-nickname"
+                name="nickname"
+                type="text"
+                placeholder="밤에서 사용할 닉네임"
+                required
+              />
+            </div>
+
+            <button class="auth-submit" type="submit">가입하기</button>
+            <a class="auth-link" href="{% url 'accounts:login' %}"
+              >이미 계정이 있어요&nbsp;&nbsp;·&nbsp;&nbsp;로그인</a
+            >
+          </section>
+        </form>
+      </div>
+    </main>
+    <script>
+      window.SIMYA_ROUTES = {
+        authLogin: "{% url 'accounts:login' %}",
+        authSignup: "{% url 'accounts:signup' %}",
+        tonightIndex: "{% url 'tonight:index' %}"
+      };
+    </script>
+    <script src="{% static 'simya/js/onboarding.js' %}"></script>
+  </body>
+</html>
+
+

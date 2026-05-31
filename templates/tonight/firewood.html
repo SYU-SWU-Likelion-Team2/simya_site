@@ -1,0 +1,98 @@
+<!doctype html>
+{% load static %}
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SIMYA - 장작 선택</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Noto+Serif+KR:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="{% static 'simya/css/common.css' %}" />
+    <link rel="stylesheet" href="{% static 'simya/css/tonight.css' %}" />
+  </head>
+  <body class="simya-page">
+    <main class="simya-screen tonight-screen tonight-flow-screen">
+      <div class="screen-dim tonight-flow-dim" aria-hidden="true"></div>
+      <span class="screen-status-indicator" aria-hidden="true"></span>
+
+      <header class="flow-topbar">
+        <p class="flow-brand">SIMYA</p>
+        <p class="flow-note">머무는 시간</p>
+        <span class="flow-divider" aria-hidden="true"></span>
+      </header>
+
+      <h1 class="flow-title firewood-title">머무는 시간을 고르기</h1>
+      <p class="flow-subtitle">시간이 지나면 자동으로 태워져요</p>
+
+      <figure class="campfire">
+        <span class="campfire-halo" aria-hidden="true"></span>
+        <span class="campfire-glow" aria-hidden="true"></span>
+        <img class="campfire-flame" src="{% static 'simya/images/figma-scene-fire-flame.png' %}" alt="" />
+        <img class="campfire-sparks" src="{% static 'simya/images/figma-scene-fire-sparks.png' %}" alt="" />
+        <figcaption>오늘 새벽 동안 함께 타오름</figcaption>
+      </figure>
+
+      <div class="firewood-stack" aria-label="글이 머무는 시간 선택">
+        <button type="button" class="firewood-row" data-firewood-option data-duration="short">
+          <span aria-hidden="true"></span>
+          <strong>짧게 머무는 조용한 불씨</strong>
+          <em>작성 시간으로부터 5시간까지</em>
+        </button>
+        <button type="button" class="firewood-row is-selected" data-firewood-option data-duration="dawn" aria-current="true">
+          <span aria-hidden="true"></span>
+          <strong>오늘 새벽 동안 함께 타오름</strong>
+          <em>커뮤니티 닫히는 새벽 5시까지</em>
+        </button>
+        <button type="button" class="firewood-row" data-firewood-option data-duration="day">
+          <span aria-hidden="true"></span>
+          <strong>하루 동안 가장 오래 머무름</strong>
+          <em>다음 날 작성 시간부터 24시간 동안</em>
+        </button>
+      </div>
+
+      <form method="post" action="{% url 'tonight:firewood' %}">
+        {% csrf_token %}
+        <input type="hidden" name="duration" id="selected-duration" value="dawn">
+
+        <nav class="firewood-actions">
+          <a class="firewood-prev" href="{% url 'tonight:write' %}">이전</a>
+          <button type="submit" class="firewood-submit">
+            글 남기기 <span aria-hidden="true"></span>
+          </button>
+        </nav>
+      </form>
+
+      <div class="post-success-overlay" data-post-success hidden>
+        <div class="post-success-toast" role="status" aria-live="polite">
+          <span class="post-success-scene" aria-hidden="true">
+            <span class="post-success-cat-body"></span>
+            <span class="post-success-person"></span>
+            <span class="post-success-fire-glow"></span>
+            <span class="post-success-fire-flame"></span>
+            <span class="post-success-fire-sparks"></span>
+            <span class="post-success-cat-head"></span>
+            <span class="post-success-tail"></span>
+          </span>
+          <p>글을 성공적으로 남겼습니다!</p>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      window.SIMYA_ROUTES = {
+        tonightIndex: "{% url 'tonight:index' %}",
+        tonightWrite: "{% url 'tonight:write' %}",
+        tonightFirewood: "{% url 'tonight:firewood' %}",
+        tonightDetail: "/tonight/detail/",
+        tonightEdit: "/tonight/edit/",
+        tonightComments: "/tonight/comments/",
+        tonightReaction: "/tonight/reaction/"
+      };
+    </script>
+    <script src="{% static 'simya/js/tonight.js' %}"></script>
+  </body>
+</html>

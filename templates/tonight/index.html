@@ -1,0 +1,82 @@
+<!doctype html>
+{% load static %}
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SIMYA - 오늘의 밤</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Noto+Serif+KR:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static 'simya/css/common.css' %}" />
+    <link rel="stylesheet" href="{% static 'simya/css/tonight.css' %}" />
+  </head>
+  <body class="simya-page">
+    <main class="simya-screen tonight-hub-screen">
+      <div class="screen-dim tonight-dim" aria-hidden="true"></div>
+      <header class="hub-top">
+        <p>SIMYA</p>
+        <span aria-hidden="true"></span>
+      </header>
+          <section class="hub-title">
+      <h1>오늘의 밤</h1>
+      <p data-hub-left>새벽까지 5시간 남았어요</p>
+    </section>
+    {% if mine %}
+    <a class="hub-my-post is-active" href="{% url 'tonight:index' %}">
+      <span aria-hidden="true"></span>
+      <b>전체 보기</b>
+    </a>
+{% else %}
+<a class="hub-my-post" href="{% url 'tonight:index' %}?mine=1">
+  <span aria-hidden="true"></span>
+  <b>내 글 보기</b>
+</a>
+{% endif %}
+
+      {% if posts %}
+      <section class="hub-feed-list" data-feed-list aria-label="오늘의 밤 글 목록">
+        {% for post in posts %}
+        <a class="hub-feed-card {% if post.is_mine %}is-mine{% endif %}"
+           href="/tonight/detail/{{ post.pk }}/"
+           style="position: relative; top: auto; flex-shrink: 0;">
+          <strong>{% if post.is_mine %}내가 남긴 밤{% else %}익명의 밤{% endif %}</strong>
+          <span>{{ post.content|truncatechars:44 }}</span>
+          <em>{% if post.is_mine %}내가 남긴 밤{% else %}익명의 밤{% endif %} · <b data-countdown data-expires-at="{{ post.expires_at|date:'c' }}">남은 시간</b></em>
+          <small>🔥 {{ post.fire_count }} 💬 {{ post.stay_count }}</small>
+        </a>
+        {% endfor %}
+      </section>
+      {% else %}
+      <section class="hub-empty-copy" data-empty-state aria-label="빈 피드 안내">
+        <h2>아직 남겨진 밤이 없어요</h2>
+        <p>밤의 흔적은 다음날에 재가 됩니다.<br />온기를 남긴 사람에게만 조용히 닿아요.</p>
+      </section>
+      <div class="hub-small-scene" data-empty-scene aria-hidden="true">
+        <span class="hub-cat-body"></span>
+        <span class="hub-person"></span>
+        <span class="hub-fire"></span>
+        <span class="hub-cat-head"></span>
+        <span class="hub-tail"></span>
+      </div>
+      {% endif %}
+
+      <a class="hub-write-fab" href="{% url 'tonight:write' %}">
+        <span aria-hidden="true"></span>
+        글 남기기
+      </a>
+    </main>
+    <script>
+      window.SIMYA_ROUTES = {
+        tonightIndex: "{% url 'tonight:index' %}",
+        tonightWrite: "{% url 'tonight:write' %}",
+        tonightFirewood: "{% url 'tonight:firewood' %}",
+        tonightDetail: "/tonight/detail/",
+        tonightEdit: "/tonight/edit/",
+        tonightComments: "/tonight/comments/",
+        tonightReaction: "/tonight/reaction/"
+      };
+    </script>
+    <script src="{% static 'simya/js/tonight.js' %}"></script>
+  </body>
+</html>

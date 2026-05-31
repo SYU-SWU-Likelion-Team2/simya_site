@@ -1,0 +1,670 @@
+/*
+ * onboarding.css
+ * Description : 온보딩/로그인/회원가입 화면 스타일
+ * Author       : 배서현
+ * Contributors : Codex
+ * Created      : 2026-05-23
+ * Last Update  : 2026-05-30
+ * Revision History
+ *   v1.0.0 - 정적 프론트 리소스 제작 (2026-05-23 : 배서현)
+ *   v1.1.0 - Figma 기준 UI/상호작용 반영 (2026-05-26 : Codex)
+ *   v1.2.0 - Django MTV 연결 준비 및 백엔드 인수인계 주석 정리 (2026-05-30 : Codex)
+ * Frontend responsibilities
+ * - 온보딩 배경, 인증 패널, 버튼, iPhone 기준 스케일 UI를 담당합니다.
+ * Frontend -> Backend values
+ * - 없음. 정적 스타일 리소스입니다.
+ * Backend -> Frontend values
+ * - 없음. Django static 파일로 제공됩니다.
+ * Backend responsibilities
+ * - accounts 템플릿과 index 템플릿에서 동일 CSS를 사용하도록 static 경로를 제공합니다.
+ * Django MTV notes
+ * - Django에서는 {% static "simya/css/onboarding.css" %}로 로드합니다.
+ */* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  width: 100vw;
+  min-height: 100dvh;
+  overflow: hidden;
+  background: #071329;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family:
+    "Noto Sans KR", "Pretendard", "SUIT", "Apple SD Gothic Neo",
+    "Malgun Gothic", sans-serif;
+}
+
+.onboarding-wrapper {
+  width: 390px;
+  height: 844px;
+  position: relative;
+  flex: 0 0 auto;
+  overflow: hidden;
+  border: 0;
+  border-radius: 40px;
+  background: #071329;
+  transform: scale(var(--simya-scale-x, 1), var(--simya-scale-y, 1));
+  transform-origin: center center;
+}
+
+.auth-error {
+  position: absolute;
+  top: 51px;
+  left: 23px;
+  width: 294px;
+  color: #ff4d4f !important;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 20px;
+}
+
+.slide {
+  --scene-x: -47.792px;
+  --scene-y: -1px;
+  display: none;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background-image:
+    url("../images/figma-scene-tail.png"),
+    url("../images/figma-scene-cat-head.png"),
+    url("../images/figma-scene-fire-sparks.png"),
+    url("../images/figma-scene-fire-flame.png"),
+    url("../images/figma-scene-fire-glow.png"),
+    url("../images/figma-scene-person.png"),
+    url("../images/figma-scene-cat-body.png"),
+    url("../images/figma-scene-background.png");
+  background-position:
+    calc(var(--scene-x) + 194.85px) calc(var(--scene-y) + 542.64px),
+    calc(var(--scene-x) + 34.33px) calc(var(--scene-y) + 431.59px),
+    calc(var(--scene-x) + 196.36px) calc(var(--scene-y) + 577.47px),
+    calc(var(--scene-x) + 73.19px) calc(var(--scene-y) + 510.34px),
+    calc(var(--scene-x) + 178.69px) calc(var(--scene-y) + 555.77px),
+    calc(var(--scene-x) + 183.24px) calc(var(--scene-y) + 522.96px),
+    var(--scene-x) calc(var(--scene-y) + 352.34px),
+    calc(var(--scene-x) + 8.58px) var(--scene-y);
+  background-repeat: no-repeat;
+  background-size:
+    269.218px 201.914px,
+    222.105px 222.105px,
+    51.993px 92.376px,
+    298.328px 298.328px,
+    86.932px 154.464px,
+    219.581px 219.581px,
+    477.19px 357.892px,
+    475.002px 844px;
+}
+
+#slide-2 {
+  --scene-y: -3px;
+}
+
+#slide-4 {
+  --scene-y: -11px;
+}
+
+.slide::before,
+.slide::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  z-index: 0;
+  width: 100%;
+  pointer-events: none;
+}
+
+.slide::before {
+  top: 0;
+  height: 420px;
+  background: url("../images/figma-overlay-top.png") center / 100% 100%
+    no-repeat;
+}
+
+.slide::after {
+  bottom: 0;
+  height: 330px;
+  background: url("../images/figma-overlay-bottom.png") center / 100% 100%
+    no-repeat;
+}
+
+.slide.active {
+  display: block;
+}
+
+.top-bar {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.time,
+.logo {
+  position: absolute;
+  color: #dde7f5;
+  letter-spacing: 0;
+  word-break: break-word;
+}
+
+.time {
+  top: 14px;
+  left: 23px;
+  width: 72px;
+  color: #fff4d6;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 20px;
+}
+
+.logo {
+  top: 15px;
+  right: 23px;
+  width: 78px;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 18px;
+  text-align: right;
+}
+
+.content {
+  position: absolute;
+  top: 117px;
+  left: 35px;
+  z-index: 1;
+  width: 318px;
+  text-align: center;
+}
+
+#slide-1 .content {
+  top: 111px;
+}
+
+#slide-3 .content {
+  top: 105px;
+}
+
+#slide-4 .content {
+  top: 103px;
+}
+
+h1 {
+  width: 318px;
+  margin-bottom: 22px;
+  color: #fff4d6;
+  font-family:
+    "Noto Serif KR", "Nanum Myeongjo", "Batang", "AppleMyungjo", serif;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 42px;
+  letter-spacing: 0;
+  text-align: center;
+}
+
+#slide-1 h1 {
+  font-size: 32px;
+  line-height: 44px;
+}
+
+#slide-3 h1 {
+  margin-bottom: 26px;
+}
+
+#slide-4 h1 {
+  margin-bottom: 24px;
+}
+
+.content > p {
+  width: 318px;
+  color: #dde7f5;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 25px;
+  letter-spacing: 0;
+  text-align: center;
+}
+
+.open-badge {
+  width: 160px;
+  height: 34px;
+  margin: 20px auto 0;
+  border: 1px solid rgba(245, 155, 69, 0.65);
+  border-radius: 999px;
+  background: rgba(35, 27, 47, 0.74);
+  color: #ffc270;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.tags {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 34px;
+}
+
+.tag {
+  width: 88px;
+  height: 34px;
+  border: 1px solid rgba(38, 59, 99, 0.65);
+  background: rgba(16, 34, 65, 0.74);
+  border-radius: 999px;
+  color: #dde7f5;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.tag:first-child {
+  width: 74px;
+}
+
+.burn-options {
+  width: 318px;
+  height: 136px;
+  margin-top: 38px;
+  padding: 22px 23px;
+  border-radius: 24px;
+  background: rgba(11, 27, 54, 0.7);
+  border: 1px solid rgba(245, 155, 69, 0.34);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  text-align: left;
+}
+
+.burn-item {
+  color: #dde7f5;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: 0;
+}
+
+.burn-item.highlight {
+  color: #ffc270;
+  font-weight: 700;
+}
+
+.bottom {
+  position: absolute;
+  top: 703px;
+  left: 23px;
+  z-index: 1;
+  width: 342px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.dots {
+  width: 96px;
+  height: 6px;
+  margin-top: 34px;
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
+  order: 2;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(221, 231, 245, 0.34);
+}
+
+.dot.active {
+  width: 22px;
+  background: #f59b45;
+}
+
+.btn-next {
+  width: 342px;
+  height: 56px;
+  border: none;
+  border-radius: 999px;
+  background: #f59b45;
+  color: #071329;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 22px;
+  letter-spacing: 0;
+  cursor: pointer;
+  box-shadow: 0 0 26px rgba(245, 155, 69, 0.22);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  order: 1;
+}
+
+.btn-google {
+  position: relative;
+  width: 342px;
+  border: none;
+  border-radius: 999px;
+  color: #071329;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 22px;
+  letter-spacing: 0;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn-google {
+  height: 47px;
+  background: #fff;
+  gap: 20px;
+}
+
+.google-logo {
+  width: 24px;
+  height: 24px;
+  flex: 0 0 auto;
+  display: block;
+  object-fit: contain;
+}
+
+.btn-auth-switch {
+  width: 342px;
+  height: 22px;
+  border: none;
+  background: none;
+  color: #c2dafb;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 22px;
+  letter-spacing: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#slide-4 .bottom {
+  top: 640px;
+  gap: 12px;
+}
+
+#slide-4 .dots {
+  margin-top: 67px;
+}
+
+.auth-form {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.auth-title {
+  position: absolute;
+  left: 36px;
+  width: 318px;
+  color: #fff4d6;
+  font-family:
+    "Noto Serif KR", "Nanum Myeongjo", "Batang", "AppleMyungjo", serif;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 42px;
+  letter-spacing: 0;
+  text-align: center;
+}
+
+.auth-copy {
+  position: absolute;
+  left: 36px;
+  width: 318px;
+  color: #dde7f5;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 25px;
+  letter-spacing: 0;
+  text-align: center;
+}
+
+.auth-login .auth-title {
+  top: 99px;
+}
+
+.auth-login .auth-copy {
+  top: 203px;
+}
+
+.auth-signup .auth-title {
+  top: 63px;
+}
+
+.auth-signup .auth-copy {
+  top: 165px;
+}
+
+.auth-panel {
+  position: absolute;
+  left: 23px;
+  width: 342px;
+  overflow: hidden;
+  border: 1px solid rgba(38, 59, 99, 0.82);
+  border-radius: 28px;
+  background: rgba(7, 19, 41, 0.66);
+  box-shadow: 0 16px 34px rgba(0, 0, 0, 0.28);
+}
+
+.auth-login .auth-panel {
+  top: 281px;
+  height: 356px;
+}
+
+.auth-signup .auth-panel {
+  top: 244px;
+  height: 486px;
+}
+
+.auth-panel .auth-default-info {
+  position: absolute;
+  top: 51px;
+  left: 23px;
+  width: 294px;
+  color: rgba(221, 231, 245, 0.78);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+.auth-panel h2,
+.auth-field label,
+.auth-field input,
+.auth-toggle-password,
+.auth-submit,
+.auth-link {
+  position: absolute;
+  letter-spacing: 0;
+}
+
+.auth-panel h2 {
+  top: 21px;
+  left: 23px;
+  width: 294px;
+  color: #fff4d6;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 28px;
+}
+
+.auth-panel > p {
+  top: 51px;
+  left: 23px;
+  width: 294px;
+  color: rgba(221, 231, 245, 0.78);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+.auth-signup .auth-panel h2 {
+  top: 19px;
+}
+
+.auth-signup .auth-panel > p {
+  top: 49px;
+}
+
+.auth-field {
+  position: absolute;
+  left: 23px;
+  width: 294px;
+}
+
+.auth-field label {
+  top: 0;
+  left: 0;
+  width: 294px;
+  height: 18px;
+  color: #c2dafb;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 18px;
+}
+
+.auth-field input {
+  left: 0;
+  width: 294px;
+  border: 1px solid rgba(38, 59, 99, 0.88);
+  background: rgba(11, 24, 48, 0.74);
+  color: #fff4d6;
+  font: inherit;
+  font-size: 14px;
+  line-height: 22px;
+  outline: 0;
+}
+
+.auth-field input::placeholder {
+  color: rgba(221, 231, 245, 0.72);
+  opacity: 1;
+}
+
+.auth-login .field-id {
+  top: 87px;
+  height: 74px;
+}
+
+.auth-login .field-password {
+  top: 167px;
+  height: 74px;
+}
+
+.auth-login .auth-field input {
+  top: 22px;
+  height: 52px;
+  padding: 0 56px 0 17px;
+  border-radius: 18px;
+}
+
+.auth-signup .field-id {
+  top: 83px;
+}
+
+.auth-signup .field-password {
+  top: 149px;
+}
+
+.auth-signup .field-name {
+  top: 215px;
+}
+
+.auth-signup .field-nickname {
+  top: 281px;
+}
+
+.auth-signup .auth-field {
+  height: 66px;
+}
+
+.auth-signup .auth-field input {
+  top: 20px;
+  height: 46px;
+  padding: 0 56px 0 17px;
+  border-radius: 16px;
+}
+
+.auth-toggle-password {
+  right: 12px;
+  bottom: 13px;
+  width: 42px;
+  height: 24px;
+  border: 0;
+  background: transparent;
+  color: #f59b45;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 20px;
+}
+
+.auth-signup .auth-toggle-password {
+  bottom: 11px;
+}
+
+.auth-submit {
+  left: 23px;
+  width: 294px;
+  height: 52px;
+  border: 0;
+  border-radius: 999px;
+  background: #f59b45;
+  color: #071329;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 22px;
+}
+
+.auth-login .auth-submit {
+  top: 257px;
+}
+
+.auth-signup .auth-submit {
+  top: 373px;
+}
+
+.auth-link {
+  left: 23px;
+  width: 294px;
+  color: #c2dafb;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 22px;
+  text-align: center;
+}
+
+.auth-login .auth-link {
+  top: 325px;
+}
+
+.auth-signup .auth-link {
+  top: 431px;
+}
+
+.auth-submit:hover,
+.btn-google:hover {
+  transform: translateY(-1px);
+}
+
+.auth-link:hover,
+.btn-auth-switch:hover {
+  color: #f59b45;
+}
+
