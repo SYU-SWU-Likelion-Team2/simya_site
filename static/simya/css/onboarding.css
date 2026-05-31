@@ -667,4 +667,16 @@ h1 {
 .btn-auth-switch:hover {
   color: #f59b45;
 }
+@media (max-width: 540px) {
+  body {
+    margin: 0;
+    overflow: hidden;
+  }
 
+  .onboarding-wrapper {
+    width: 100vw;
+    height: 100dvh;
+    border-radius: 0;
+    transform: none;
+  }
+}
