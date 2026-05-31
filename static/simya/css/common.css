@@ -180,22 +180,17 @@ textarea:focus-visible {
   width: 185px;
 }
 @media (max-width: 768px) {
-  .simya-page {
-    overflow: hidden;
-  }
-
   .simya-screen {
     width: 100vw;
-    height: 100dvh;
+    min-height: 844px;
+    height: auto;
     border-radius: 0;
-    transform: none !important;
   }
 
-  .screen-dim {
-    border-radius: 0;
+  .simya-page {
+    overflow-y: auto;
   }
 }
-
 
 
 
