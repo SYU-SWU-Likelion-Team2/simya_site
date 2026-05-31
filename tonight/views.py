@@ -19,9 +19,14 @@ def index(request):
 
     for post in posts:
         post.is_mine = post.author == request.user
-        post.fire_count = post.reactions.filter(reaction_type='fire').count()
-        post.stay_count = post.reactions.filter(reaction_type='stay').count()
+        post.fire_count = post.reactions.filter(
+            reaction_type='fire'
+        ).count()
+        post.stay_count = post.reactions.filter(
+            reaction_type='stay'
+        ).count()
         post.comment_count = post.comments.count()
+        post.reaction_count = post.fire_count + post.stay_count
 
     return render(request, 'tonight/index.html', {'posts': posts, 'mine': mine})
 

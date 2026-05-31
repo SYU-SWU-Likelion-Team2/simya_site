@@ -44,7 +44,7 @@
           <strong>{% if post.is_mine %}내가 남긴 밤{% else %}익명의 밤{% endif %}</strong>
           <span>{{ post.content|truncatechars:44 }}</span>
           <em>{% if post.is_mine %}내가 남긴 밤{% else %}익명의 밤{% endif %} · <b data-countdown data-expires-at="{{ post.expires_at|date:'c' }}">남은 시간</b></em>
-          <small>🔥 {{ post.fire_count }} 💬 {{ post.stay_count }}</small>
+         <small>🔥 {{ post.reaction_count }} 💬 {{ post.comment_count }}</small>
         </a>
         {% endfor %}
       </section>
