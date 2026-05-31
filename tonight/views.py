@@ -120,4 +120,4 @@ def delete(request, post_id):
 @login_required
 def logout_view(request):
     logout(request)
-    return redirect('accounts:login')
+    return redirect('/accounts/google/login/')
